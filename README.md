@@ -22,7 +22,7 @@ The above figure illustrates the architecture of the YOLOv8 Nano classification 
 
 In summary, the YOLOv8 Nano classification model contains a total of 26 convolutional layers, each having a different number of output channels. These convolutional layers progressively extract hierarchical features from the input image, producing a rich feature map. The final feature map is then passed to the classification head, which performs global feature aggregation and generates the final class prediction.
 
-###3.Channel Sensitivity Analysis and Structured Pruning Strategy:
+***3.Channel Sensitivity Analysis and Structured Pruning Strategy:***
 
 For prunning model I did sensitivity analysis of each layer by simply making it's activation zeros to check how much accuracy drop we get while performing this sensitivity analysis only one layer at a time was considered how ever when we will be doing actual prunning we will prune multiple layers so actual loss may be higher alsoa.Once we get sensitivity analysis report we need to select layers upto which we can prune i have selected layers which was giving loss upto 5% was selected by me for prunning so. you can see that in graph of sensitivity analysis report below.
 
@@ -80,6 +80,7 @@ The process was repeated for the next layer until all 12 eligible convolutional 
 This iterative prune-and-fine-tune strategy enabled the model to gradually adapt to the reduced architecture, minimizing the loss in classification performance while significantly reducing the model size and computational cost.
 
 ***8.Conclusion:***
+
 In summary, 12 convolutional layers were identified as candidates for structured pruning based on the layer sensitivity analysis. During iterative pruning, Torch-Pruning successfully pruned 6 of these layers. The remaining 6 layers were skipped because the dependency graph identified them as having structural dependencies (primarily residual and concatenation connections), making channel removal unsafe without breaking the computational graph. As a result, the final pruned model retained only the structurally valid pruning operations while preserving network correctness.
 
 Final statistics of the pruned model are as follows:
