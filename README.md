@@ -4,7 +4,7 @@ Structured prunning of yolo v8 classification model
 
 ### ANN
 
-<img src="Yolo_architecture/YOLOv8.png" width="700">
+<img src="Yolo_architecture/YOLOv8_class.png" width="700">
 
 <img src="Yolo_architecture/C2F.png" width="700">
 
@@ -12,5 +12,5 @@ Structured prunning of yolo v8 classification model
 
 ### CNN
 
-<img src="dependancy_graph.png" width="700">
+<img src="d/ependancy_graph.png" width="700">
 
