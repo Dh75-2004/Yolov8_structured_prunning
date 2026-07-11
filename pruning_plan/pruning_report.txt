@@ -1,0 +1,88 @@
+======================================================================
+YOLOv8 Channel Pruning Plan
+======================================================================
+
+Layer : model.4.m.1.cv2.conv
+Layer Sensitivity : 0.4144
+Pruning Ratio : 0.80
+Total Channels : 32
+Channels Pruned : 25
+Channels Kept : 7
+
+Layer : model.2.m.0.cv2.conv
+Layer Sensitivity : 0.3551
+Pruning Ratio : 0.80
+Total Channels : 16
+Channels Pruned : 12
+Channels Kept : 4
+
+Layer : model.2.m.0.cv1.conv
+Layer Sensitivity : 0.0572
+Pruning Ratio : 0.80
+Total Channels : 16
+Channels Pruned : 12
+Channels Kept : 4
+
+Layer : model.4.m.0.cv1.conv
+Layer Sensitivity : 0.0538
+Pruning Ratio : 0.80
+Total Channels : 32
+Channels Pruned : 25
+Channels Kept : 7
+
+Layer : model.4.m.1.cv1.conv
+Layer Sensitivity : 0.0423
+Pruning Ratio : 0.80
+Total Channels : 32
+Channels Pruned : 25
+Channels Kept : 7
+
+Layer : model.4.m.0.cv2.conv
+Layer Sensitivity : 0.0400
+Pruning Ratio : 0.80
+Total Channels : 32
+Channels Pruned : 25
+Channels Kept : 7
+
+Layer : model.6.m.0.cv1.conv
+Layer Sensitivity : 0.0102
+Pruning Ratio : 0.80
+Total Channels : 64
+Channels Pruned : 51
+Channels Kept : 13
+
+Layer : model.6.m.1.cv2.conv
+Layer Sensitivity : 0.0097
+Pruning Ratio : 0.80
+Total Channels : 64
+Channels Pruned : 51
+Channels Kept : 13
+
+Layer : model.6.m.0.cv2.conv
+Layer Sensitivity : 0.0091
+Pruning Ratio : 0.80
+Total Channels : 64
+Channels Pruned : 51
+Channels Kept : 13
+
+Layer : model.8.m.0.cv2.conv
+Layer Sensitivity : 0.0057
+Pruning Ratio : 0.80
+Total Channels : 128
+Channels Pruned : 102
+Channels Kept : 26
+
+Layer : model.6.m.1.cv1.conv
+Layer Sensitivity : 0.0051
+Pruning Ratio : 0.80
+Total Channels : 64
+Channels Pruned : 51
+Channels Kept : 13
+
+Layer : model.8.m.0.cv1.conv
+Layer Sensitivity : 0.0012
+Pruning Ratio : 0.80
+Total Channels : 128
+Channels Pruned : 102
+Channels Kept : 26
+
