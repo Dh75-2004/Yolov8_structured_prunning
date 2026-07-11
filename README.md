@@ -118,17 +118,17 @@ Parameter Reduction : 26.55%
 
 Original MACs : 3,958,602
 
-Final MACs: 2,619,638
+Final MACs : 2,619,638
 
-MAC Reduction: 33.82%
+MAC Reduction : 33.82%
 
-Successful Pruning Operations: 6
+Successful Pruning Operations : 6
 
-Skipped Pruning Operations: 6
+Skipped Pruning Operations : 6
 
-Inference time of original model on cpu:
+Inference time of original model on cpu : 3.934 ms
 
-Inference time of prunned model on cpu:
+Inference time of prunned model on cpu : 2.9505 ms
 
 
 
