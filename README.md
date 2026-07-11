@@ -5,13 +5,13 @@ This project focuses on structured (coarse-grained) pruning of a pre-trained YOL
 The original YOLOv8 classification model was previously trained for a real-time object classification application. The complete data collection, image annotation, data augmentation, and model training pipeline were performed separately and are not part of this project. This repository begins with an already trained model and concentrates entirely on the pruning, fine-tuning, and performance evaluation stages.
 Original Model Statistics
 The pre-trained YOLOv8 classification model used in this project has the following characteristics:
-Top-1 Accuracy:92.03%
+Top-1 Accuracy : 92.03%
 
-Trainable Parameters:1,451,098
+Trainable Parameters : 1,451,098
 
-MACs (Multiply-Accumulate Operations):3,958,602
+MACs (Multiply-Accumulate Operations) : 3,958,602
 
-Model Type	YOLOv8 Classification
+Model Type : YOLOv8 Classification
 
 ***2.YOLOv8 architecture:***
 
@@ -37,14 +37,20 @@ The next step was to perform channel sensitivity analysis on each of these layer
 ***4.Pruning Plan Generation:***
 
 Based on the sensitivity analysis, a structured pruning plan was created. The purpose of this pruning plan was to determine:
+
 1)The order in which layers should be pruned.
+
 2)The percentage of channels to remove from each layer.
+
 3)The specific output channels that should be removed.
+
 The pruning process follows the principle of removing the least sensitive layers first. Therefore, all eligible layers were sorted in ascending order of their layer sensitivity, ensuring that pruning begins with layers having the smallest impact on the model's predictions.
 Within each selected layer, the output channels were also sorted according to their individual sensitivity scores. Channels producing the least change in the network output were selected for removal before more important channels.
 To control the pruning intensity, different pruning ratios were assigned according to the measured layer sensitivity:
 1)Layer sensitivity between 1 and 2: prune 60% of the output channels.
+
 2)Layer sensitivity between 2 and 4: prune 60% of the output channels.
+
 3)Layer sensitivity between 4 and 5: prune 50% of the output channels.
 
 Using these thresholds, an automated pruning plan was generated for all eligible convolutional layers.
@@ -55,9 +61,13 @@ The original YOLOv8 model provided by the Ultralytics framework could not be dir
 To overcome this limitation, the complete YOLOv8 classification architecture was reimplemented from scratch using pure PyTorch (nn.Module and nn.Sequential) while preserving the original architecture exactly.
 Before using this custom implementation for pruning, several verification steps were performed:
 1)Every layer name was matched with the corresponding layer in the original Ultralytics model.
+
 2)All pretrained weights were copied from the original model into the custom implementation.
+
 3)The outputs of every intermediate layer were compared to ensure numerical equivalence.
+
 4)Final classification logits and prediction probabilities were verified to be identical.
+
 5)The total number of trainable parameters and the model architecture were confirmed to match the original implementation exactly.
 
 These validation steps ensured that the custom sequential model behaved identically to the original YOLOv8 classification model while being fully compatible with Torch-Pruning.
@@ -73,11 +83,17 @@ Using the dependency graph, Torch-Pruning automatically identifies all layers af
 After generating the pruning plan and constructing the dependency graph, the actual pruning process was carried out iteratively.
 For each eligible convolutional layer:
 1)The next layer was selected according to the pruning plan.
+
 2)The specified output channels were removed using Torch-Pruning.
+
 3)The dependency graph automatically updated all connected layers to maintain a valid network architecture.
+
 4)The pruned model was fine-tuned for 8 epochs using a batch size of 64 to recover the loss in classification accuracy caused by pruning.
+
 5)The model's accuracy, parameter count, and computational complexity were evaluated after fine-tuning.
+
 6)After fine-tuning, the model's accuracy was evaluated. If the accuracy dropped below the predefined threshold, the pruning operation was considered unsuccessful, and the model was rolled back to its previous state.
+
 The process was repeated for the next layer until all 12 eligible convolutional layers had been processed.
 
 This iterative prune-and-fine-tune strategy enabled the model to gradually adapt to the reduced architecture, minimizing the loss in classification performance while significantly reducing the model size and computational cost.
@@ -87,17 +103,17 @@ This iterative prune-and-fine-tune strategy enabled the model to gradually adapt
 In summary, 12 convolutional layers were identified as candidates for structured pruning based on the layer sensitivity analysis. During iterative pruning, Torch-Pruning successfully pruned 6 of these layers. The remaining 6 layers were skipped because the dependency graph identified them as having structural dependencies (primarily residual and concatenation connections), making channel removal unsafe without breaking the computational graph. As a result, the final pruned model retained only the structurally valid pruning operations while preserving network correctness.
 
 Final statistics of the pruned model are as follows:
-Validation Top-1 Accuracy: 92.56%
+Validation Top-1 Accuracy : 92.56%
 
-Original Parameters: 1,451,098
+Original Parameters : 1,451,098
 
-Final Parameters: 1,065,798
+Final Parameters : 1,065,798
 
-Parameters Removed: 385,300
+Parameters Removed : 385,300
 
-Parameter Reduction: 26.55%
+Parameter Reduction : 26.55%
 
-Original MACs: 3,958,602
+Original MACs : 3,958,602
 
 Final MACs: 2,619,638
 
