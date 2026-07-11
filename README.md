@@ -6,8 +6,11 @@ The original YOLOv8 classification model was previously trained for a real-time 
 Original Model Statistics
 The pre-trained YOLOv8 classification model used in this project has the following characteristics:
 Top-1 Accuracy:92.03%
+
 Trainable Parameters:1,451,098
+
 MACs (Multiply-Accumulate Operations):3,958,602
+
 Model Type	YOLOv8 Classification
 
 ***2.YOLOv8 architecture:***
@@ -85,16 +88,27 @@ In summary, 12 convolutional layers were identified as candidates for structured
 
 Final statistics of the pruned model are as follows:
 Validation Top-1 Accuracy: 92.56%
+
 Original Parameters: 1,451,098
+
 Final Parameters: 1,065,798
+
 Parameters Removed: 385,300
+
 Parameter Reduction: 26.55%
+
 Original MACs: 3,958,602
+
 Final MACs: 2,619,638
+
 MAC Reduction: 33.82%
+
 Successful Pruning Operations: 6
+
 Skipped Pruning Operations: 6
+
 Inference time of original model on cpu:
+
 Inference time of prunned model on cpu:
 
 
