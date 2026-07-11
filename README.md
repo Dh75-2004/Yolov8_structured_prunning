@@ -12,5 +12,5 @@ Structured prunning of yolo v8 classification model
 
 ### CNN
 
-<img src="d/ependancy_graph.png" width="700">
+<img src="dependency_graph.png" width="700">
 
