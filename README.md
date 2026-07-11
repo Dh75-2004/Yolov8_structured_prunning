@@ -4,16 +4,13 @@ Structured prunning of yolo v8 classification model
 
 ### ANN
 
-<img src="graphs4/accuracy.png" width="700">
+<img src="Yolo_architecture/YOLOv8.png" width="700">
 
-<img src="graphs4/training_time.png" width="700">
+<img src="Yolo_architecture/C2F.png" width="700">
 
-<img src="graphs4/gpu_utilization.png" width="700">
+<img src="sensitivity_results/layer_sensitivity.png" width="700">
 
 ### CNN
 
-<img src="graphs5_CNN/accuracy.png" width="700">
+<img src="channel_sensitivity_results/channel_sensitivity_distribution.png" width="700">
 
-<img src="graphs5_CNN/training_time.png" width="700">
-
-<img src="graphs5_CNN/gpu_memory.png" width="700">
