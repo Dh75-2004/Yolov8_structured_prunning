@@ -13,19 +13,25 @@ Model Type	YOLOv8 Classification
 ***2.YOLOv8 architecture:***
 
 Before performing structured pruning, it is important to understand the architecture of the YOLOv8 classification model. A clear understanding of each building block and the data flow through the network helps explain how pruning affects the model's parameters, computational complexity, and overall classification performance.
+
 <img src="Yolo_architecture/YOLOv8_class.png" width="700">
+
 The above figure illustrates the architecture of the YOLOv8 Nano classification model. As shown, the network consists of a total of 11 backbone blocks followed by a classification head. The figure below presents the internal architecture of each of these blocks, providing a detailed view of their constituent layers and connections.
+
 <img src="Yolo_architecture/C2F.png" width="700">
+
 In summary, the YOLOv8 Nano classification model contains a total of 26 convolutional layers, each having a different number of output channels. These convolutional layers progressively extract hierarchical features from the input image, producing a rich feature map. The final feature map is then passed to the classification head, which performs global feature aggregation and generates the final class prediction.
 
 ###3.Channel Sensitivity Analysis and Structured Pruning Strategy:
 
 For prunning model I did sensitivity analysis of each layer by simply making it's activation zeros to check how much accuracy drop we get while performing this sensitivity analysis only one layer at a time was considered how ever when we will be doing actual prunning we will prune multiple layers so actual loss may be higher alsoa.Once we get sensitivity analysis report we need to select layers upto which we can prune i have selected layers which was giving loss upto 5% was selected by me for prunning so. you can see that in graph of sensitivity analysis report below.
+
 <img src="sensitivity_results/layer_sensitivity.png" width="700">
+
 After analyzing the architecture of the YOLOv8 classification model, it was observed that 12 convolutional layers were suitable candidates for structured channel pruning. These layers were selected because pruning them can significantly reduce the computational complexity of the model while preserving the overall network architecture.
 The next step was to perform channel sensitivity analysis on each of these layers. During this process, every output channel of a convolutional layer was temporarily removed, and the resulting degradation in the model's output was measured. Channels that caused only a small change in the model's predictions were considered less important, whereas channels causing a large degradation were considered highly important. The complete sensitivity graphs for all eligible layers are available in the channel_sensitivity_results folder of this repository.
 
-####4.Pruning Plan Generation:
+***4.Pruning Plan Generation:***
 
 Based on the sensitivity analysis, a structured pruning plan was created. The purpose of this pruning plan was to determine:
 1)The order in which layers should be pruned.
@@ -40,7 +46,7 @@ To control the pruning intensity, different pruning ratios were assigned accordi
 
 Using these thresholds, an automated pruning plan was generated for all eligible convolutional layers.
 
-###5.Building a Torch-Pruning Compatible Model:
+***5.Building a Torch-Pruning Compatible Model:***
 
 The original YOLOv8 model provided by the Ultralytics framework could not be directly used with the Torch-Pruning library because its internal architecture was not fully supported by the dependency graph generation mechanism.
 To overcome this limitation, the complete YOLOv8 classification architecture was reimplemented from scratch using pure PyTorch (nn.Module and nn.Sequential) while preserving the original architecture exactly.
@@ -53,13 +59,13 @@ Before using this custom implementation for pruning, several verification steps 
 
 These validation steps ensured that the custom sequential model behaved identically to the original YOLOv8 classification model while being fully compatible with Torch-Pruning.
 
-###6.Dependency Graph Construction:
+***6.Dependency Graph Construction:***
 
 Once the sequential model was verified, Torch-Pruning was able to successfully construct the dependency graph.
 The dependency graph is a crucial component of structured pruning because convolutional layers are often interconnected through concatenation operations, residual connections, normalization layers, and downstream convolutions. Removing channels from one layer may require corresponding changes in several dependent layers.
 Using the dependency graph, Torch-Pruning automatically identifies all layers affected by a pruning operation and propagates the necessary structural modifications throughout the network. This guarantees that the pruned model remains structurally valid and can still perform forward inference correctly after each pruning step.
 
-###7.Iterative Structured Pruning and Fine-Tuning:
+***7.Iterative Structured Pruning and Fine-Tuning:***
 
 After generating the pruning plan and constructing the dependency graph, the actual pruning process was carried out iteratively.
 For each eligible convolutional layer:
@@ -73,7 +79,7 @@ The process was repeated for the next layer until all 12 eligible convolutional 
 
 This iterative prune-and-fine-tune strategy enabled the model to gradually adapt to the reduced architecture, minimizing the loss in classification performance while significantly reducing the model size and computational cost.
 
-###8.Conclusion:
+***8.Conclusion:***
 In summary, 12 convolutional layers were identified as candidates for structured pruning based on the layer sensitivity analysis. During iterative pruning, Torch-Pruning successfully pruned 6 of these layers. The remaining 6 layers were skipped because the dependency graph identified them as having structural dependencies (primarily residual and concatenation connections), making channel removal unsafe without breaking the computational graph. As a result, the final pruned model retained only the structurally valid pruning operations while preserving network correctness.
 
 Final statistics of the pruned model are as follows:
