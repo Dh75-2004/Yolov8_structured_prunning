@@ -10,7 +10,4 @@ Structured prunning of yolo v8 classification model
 
 <img src="sensitivity_results/layer_sensitivity.png" width="700">
 
-### CNN
-
-<img src="dependency_graph.png" width="700">
 
