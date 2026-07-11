@@ -47,6 +47,7 @@ Based on the sensitivity analysis, a structured pruning plan was created. The pu
 The pruning process follows the principle of removing the least sensitive layers first. Therefore, all eligible layers were sorted in ascending order of their layer sensitivity, ensuring that pruning begins with layers having the smallest impact on the model's predictions.
 Within each selected layer, the output channels were also sorted according to their individual sensitivity scores. Channels producing the least change in the network output were selected for removal before more important channels.
 To control the pruning intensity, different pruning ratios were assigned according to the measured layer sensitivity:
+
 1)Layer sensitivity between 1 and 2: prune 60% of the output channels.
 
 2)Layer sensitivity between 2 and 4: prune 60% of the output channels.
@@ -60,6 +61,7 @@ Using these thresholds, an automated pruning plan was generated for all eligible
 The original YOLOv8 model provided by the Ultralytics framework could not be directly used with the Torch-Pruning library because its internal architecture was not fully supported by the dependency graph generation mechanism.
 To overcome this limitation, the complete YOLOv8 classification architecture was reimplemented from scratch using pure PyTorch (nn.Module and nn.Sequential) while preserving the original architecture exactly.
 Before using this custom implementation for pruning, several verification steps were performed:
+
 1)Every layer name was matched with the corresponding layer in the original Ultralytics model.
 
 2)All pretrained weights were copied from the original model into the custom implementation.
@@ -82,6 +84,7 @@ Using the dependency graph, Torch-Pruning automatically identifies all layers af
 
 After generating the pruning plan and constructing the dependency graph, the actual pruning process was carried out iteratively.
 For each eligible convolutional layer:
+
 1)The next layer was selected according to the pruning plan.
 
 2)The specified output channels were removed using Torch-Pruning.
